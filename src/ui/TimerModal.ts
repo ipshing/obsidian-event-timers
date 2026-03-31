@@ -1,18 +1,24 @@
+import { randomUUID } from "crypto";
 import { Modal, Notice, Setting } from "obsidian";
 import EventTimers from "src/main";
 import { Timer } from "src/settings";
 
 export default class TimerModal extends Modal {
-    private name: string;
-    private time: number;
-
-    constructor(plugin: EventTimers, editTimer?: Timer, onSave?: (timer: { name: string; time: number }) => void) {
+    constructor(plugin: EventTimers, editTimer?: Timer, onSave?: (result: Timer) => void) {
         super(plugin.app);
         const { contentEl } = this;
-        this.name = editTimer?.name;
-        this.time = editTimer?.time;
-
+        const result: Timer = {
+            id: randomUUID(),
+            name: "",
+            time: -1,
+        };
         if (editTimer) {
+            // Assign existing properties
+            result.id = editTimer.id;
+            result.name = editTimer.name;
+            result.time = editTimer.time;
+            result.lastCompleted = editTimer.lastCompleted;
+            result.nextUp = editTimer.nextUp;
             this.setTitle("Edit Timer");
         } else {
             this.setTitle("Add Timer");
@@ -22,7 +28,7 @@ export default class TimerModal extends Modal {
             .setDesc("The text to be displayed for the timer. Shorter values will display better.")
             .addText((text) => {
                 text.setValue(editTimer?.name).onChange((value) => {
-                    this.name = value;
+                    result.name = value;
                 });
             });
         new Setting(contentEl)
@@ -31,7 +37,7 @@ export default class TimerModal extends Modal {
             .addText((text) => {
                 text.setValue(editTimer?.time.toString()).onChange((value) => {
                     const int = parseInt(value);
-                    if (int) this.time = int;
+                    if (int) result.time = int;
                 });
             });
         new Setting(contentEl).addButton((button) => {
@@ -40,17 +46,17 @@ export default class TimerModal extends Modal {
                 .setCta()
                 .onClick(() => {
                     // Validate the fields
-                    if (this.name.length < 1) {
+                    if (result.name.length < 1) {
                         new Notice("Name field cannot be empty");
                         return;
-                    } else if (!this.time || this.time < 1) {
+                    } else if (!result.time || result.time < 1) {
                         new Notice("Time must be an integer greather than 0");
                         return;
                     }
                     // Close the modal
                     this.close();
                     // Call onSubmit to return the result
-                    onSave({ name: this.name, time: this.time });
+                    onSave(result);
                 });
         });
     }

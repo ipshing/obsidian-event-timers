@@ -15,6 +15,7 @@ export interface EventTimersSettings {
 }
 
 export interface Timer {
+    id: string;
     name: string;
     time: number;
     lastCompleted?: string;
