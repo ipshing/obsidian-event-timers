@@ -19,3 +19,67 @@
 .event-timers-settings .timers-group .timer-setting button svg.svg-icon {
     --icon-size: 22px;
 }
+
+.event-timers-view {
+    padding: var(--size-4-4);
+    font-size: var(--font-text-size);
+}
+.event-timers-view .title {
+    font-size: var(--inline-title-size);
+    font-weight: var(--inline-title-weight);
+    font-family: var(--inline-title-font);
+    color: var(--inline-title-color);
+    line-height: var(--inline-title-line-height);
+    letter-spacing: -0.015em;
+    margin-block-end: var(--inline-title-margin-bottom);
+    text-align: center;
+}
+.event-timers-view .clock {
+    font-family: var(--h2-font);
+    font-size: var(--h2-size);
+    font-weight: var(--h2-weight);
+    color: var(--h2-color);
+    opacity: 0.75;
+    text-align: center;
+}
+.event-timers-view .reset-button {
+    font-size: var(--font-ui-medium);
+}
+.event-timers-view .timer {
+    border-bottom: var(--hr-thickness) solid var(--hr-color);
+    margin-block-start: 12px;
+    margin-block-end: 12px;
+    padding-bottom: 12px;
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    gap: var(--size-4-2);
+}
+.event-timers-view .timer:last-of-type {
+    border: 0;
+    margin-block-end: var(--p-spacing);
+}
+.event-timers-view .timer .timer-name {
+    font-weight: var(--bold-weight);
+    display: inline-block;
+    min-width: 80px;
+    width: 80px;
+}
+.event-timers-view .timer .timer-button {
+    padding: var(--size-4-1);
+    width: 30px;
+    height: 30px;
+}
+.event-timers-view .timer .timer-button svg.svg-icon {
+    --icon-size: 20px;
+}
+.event-timers-view .timer .time-left {
+    display: inline-block;
+    min-width: 60px;
+    width: 60px;
+    text-align: right;
+    font-weight: var(--bold-weight);
+}
+.event-timers-view .timer .time-left.overdue {
+    color: red;
+}
