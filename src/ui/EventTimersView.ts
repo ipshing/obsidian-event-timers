@@ -59,9 +59,6 @@ export class EventTimersView extends ItemView {
 
         // Run updateView() to generate initial view
         await this.refreshView();
-
-        // Set up an initial timeout to refresh the view
-        this.startTimeout();
     }
 
     async onClose() {
