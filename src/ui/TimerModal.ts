@@ -1,13 +1,13 @@
 import { randomUUID } from "crypto";
 import { Modal, Notice, Setting } from "obsidian";
 import EventTimers from "src/main";
-import { Timer } from "src/settings";
+import { EventTimer } from "src/settings";
 
 export default class TimerModal extends Modal {
-    constructor(plugin: EventTimers, editTimer?: Timer, onSave?: (result: Timer) => void) {
+    constructor(plugin: EventTimers, editTimer?: EventTimer, onSave?: (result: EventTimer) => void) {
         super(plugin.app);
         const { contentEl } = this;
-        const result: Timer = {
+        const result: EventTimer = {
             id: randomUUID(),
             name: "",
             time: -1,

@@ -11,10 +11,10 @@ export interface EventTimersSettings {
     previousVersion: string;
     title: string;
     showClock: boolean;
-    timers: Timer[];
+    timers: EventTimer[];
 }
 
-export interface Timer {
+export interface EventTimer {
     id: string;
     name: string;
     time: number;
