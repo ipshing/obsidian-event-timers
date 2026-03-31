@@ -1,6 +1,6 @@
 {
     "name": "obsidian-event-timers",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "description": "Customizable countdown timers for tracking multiple events.",
     "main": "main.js",
     "scripts": {

@@ -1,7 +1,7 @@
 {
     "id": "obsidian-event-timers",
     "name": "Event Timers",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "minAppVersion": "1.12.0",
     "description": "Customizable countdown timers for tracking multiple events.",
     "author": "ipshing",
