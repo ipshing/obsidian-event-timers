@@ -1,0 +1,21 @@
+.event-timers-settings .timers-group .setting-item-heading {
+    padding-left: var(--size-4-2);
+}
+.event-timers-settings .timers-group .setting-item-heading .setting-item-name {
+    --setting-group-heading-size: var(--font-text-size);
+}
+.event-timers-settings .timers-group .setting-item-description {
+    font-size: var(--font-ui-medium);
+}
+.event-timers-settings .timers-group .setting-item-description > div {
+    margin: var(--size-4-2) 0;
+}
+
+.event-timers-settings .timers-group .timer-setting button {
+    height: 36px;
+    width: 36px;
+    padding: 0;
+}
+.event-timers-settings .timers-group .timer-setting button svg.svg-icon {
+    --icon-size: 22px;
+}
