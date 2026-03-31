@@ -79,6 +79,8 @@
     width: 60px;
     text-align: right;
     font-weight: var(--bold-weight);
+    font-family: var(--font-monospace);
+    font-size: 0.88888888em;
 }
 .event-timers-view .timer .time-left.overdue {
     color: red;
