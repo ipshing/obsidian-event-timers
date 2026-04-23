@@ -51,7 +51,7 @@ export class EventTimersSettingsTab extends PluginSettingTab {
                             .setButtonText("Add Timer")
                             .setCta()
                             .onClick(async () => {
-                                new TimerModal(this.plugin, null, async (result) => {
+                                new TimerModal(this.plugin, undefined, async (result) => {
                                     // Add timer to end of settings.timers
                                     this.plugin.settings.timers.push(result);
                                     // Save settings

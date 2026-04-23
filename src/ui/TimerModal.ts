@@ -1,7 +1,7 @@
 import { randomUUID } from "crypto";
 import { Modal, Notice, Setting } from "obsidian";
-import EventTimers from "src/main";
-import { EventTimer } from "src/settings";
+import EventTimers from "../main";
+import { EventTimer } from "../settings";
 
 export default class TimerModal extends Modal {
     constructor(plugin: EventTimers, editTimer?: EventTimer, onSave?: (result: EventTimer) => void) {
@@ -27,7 +27,7 @@ export default class TimerModal extends Modal {
             .setName("Name")
             .setDesc("The text to be displayed for the timer. Shorter values will display better.")
             .addText((text) => {
-                text.setValue(editTimer?.name).onChange((value) => {
+                text.setValue(editTimer?.name || "").onChange((value) => {
                     result.name = value;
                 });
             });
@@ -35,7 +35,7 @@ export default class TimerModal extends Modal {
             .setName("Time")
             .setDesc("The number of seconds the timer should count down from when started.")
             .addText((text) => {
-                text.setValue(editTimer?.time.toString()).onChange((value) => {
+                text.setValue(editTimer?.time?.toString() || "").onChange((value) => {
                     const int = parseInt(value);
                     if (int) result.time = int;
                 });
@@ -56,7 +56,7 @@ export default class TimerModal extends Modal {
                     // Close the modal
                     this.close();
                     // Call onSubmit to return the result
-                    onSave(result);
+                    if (onSave) onSave(result);
                 });
         });
     }
