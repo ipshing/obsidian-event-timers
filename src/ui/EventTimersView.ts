@@ -1,15 +1,15 @@
 import moment from "moment";
-import { ItemView, setIcon, WorkspaceLeaf } from "obsidian";
-import EventTimers from "src/main";
-import { EventTimer } from "src/settings";
+import { ItemView, setIcon, setTooltip, WorkspaceLeaf } from "obsidian";
+import EventTimers from "../main";
+import { EventTimer } from "../settings";
 
 export const EVENT_TIMERS_VIEW_TYPE = "event-timers-view";
 
 export class EventTimersView extends ItemView {
     private plugin: EventTimers;
     private timeoutId?: number;
-    private clockEl: HTMLDivElement;
-    private timersEl: HTMLDivElement;
+    private clockEl?: HTMLDivElement;
+    private timersEl?: HTMLDivElement;
 
     constructor(leaf: WorkspaceLeaf, plugin: EventTimers) {
         super(leaf);
@@ -43,8 +43,8 @@ export class EventTimersView extends ItemView {
         // Reset all button
         this.containerEl.createEl("p").createEl("button", { cls: "reset-button mod-warning", text: "Reset All" }).onclick = async () => {
             for (const timer of this.plugin.settings.timers) {
-                timer.lastCompleted = null;
-                timer.nextUp = null;
+                timer.lastCompleted = undefined;
+                timer.nextUp = undefined;
                 // Save settings
                 await this.plugin.saveSettings();
                 // Refresh view
@@ -54,8 +54,6 @@ export class EventTimersView extends ItemView {
 
         // Timers container
         this.timersEl = this.containerEl.createDiv("timers");
-
-        console.log(this.plugin.settings.timers);
 
         // Run updateView() to generate initial view
         await this.refreshView();
@@ -71,11 +69,13 @@ export class EventTimersView extends ItemView {
         this.stopTimeout();
 
         // Update the clock
-        this.clockEl.setText(moment().format("h:mm:ss A"));
-        if (this.plugin.settings.showClock) {
-            this.clockEl.removeClass("hidden");
-        } else {
-            this.clockEl.addClass("hidden");
+        if (this.clockEl) {
+            this.clockEl.setText(moment().format("h:mm:ss A"));
+            if (this.plugin.settings.showClock) {
+                this.clockEl.removeClass("hidden");
+            } else {
+                this.clockEl.addClass("hidden");
+            }
         }
 
         if (!this.timersEl) {
@@ -106,15 +106,19 @@ export class EventTimersView extends ItemView {
             // Buttons
             const complete = p.createEl("button", { cls: "timer-button mod-cta" });
             setIcon(complete, "check");
+            setTooltip(complete, "Mark complete");
             complete.onclick = async () => this.markComplete(event);
             const plus = p.createEl("button", { cls: "timer-button" });
             setIcon(plus, "plus");
+            setTooltip(plus, "Add 30 seconds");
             plus.onclick = async () => this.adjustEvent(event, 30);
             const minus = p.createEl("button", { cls: "timer-button" });
             setIcon(minus, "minus");
+            setTooltip(minus, "Remove 30 seconds");
             minus.onclick = async () => this.adjustEvent(event, -30);
             const reset = p.createEl("button", { cls: "timer-button mod-warning" });
             setIcon(reset, "eraser");
+            setTooltip(reset, "Reset");
             reset.onclick = async () => this.resetEvent(event);
             // Time left
             p.createDiv({ cls: clsString, text: timeLeft });
@@ -129,6 +133,7 @@ export class EventTimersView extends ItemView {
             // Buttons
             const complete = p.createEl("button", { cls: "timer-button mod-cta" });
             setIcon(complete, "check");
+            setTooltip(complete, "Mark complete");
             complete.onclick = async () => this.markComplete(event);
             // Disable these buttons but keep them for UX consistency
             const plus = p.createEl("button", { cls: "timer-button" });
@@ -160,7 +165,7 @@ export class EventTimersView extends ItemView {
     private stopTimeout() {
         if (this.timeoutId) {
             activeWindow.clearTimeout(this.timeoutId);
-            this.timeoutId = null;
+            this.timeoutId = undefined;
         }
     }
 
@@ -214,8 +219,8 @@ export class EventTimersView extends ItemView {
         const match = this.plugin.settings.timers.find((t) => t.id == timer.id);
         if (match) {
             // Update timestamp properties
-            match.lastCompleted = null;
-            match.nextUp = null;
+            match.lastCompleted = undefined;
+            match.nextUp = undefined;
             // Save settings
             await this.plugin.saveSettings();
             // Refresh view

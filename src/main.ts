@@ -57,9 +57,11 @@ export default class EventTimers extends Plugin {
             // The view could not be found in the workspace,
             // create a new leaf in the right sidebar
             leaf = workspace.getRightLeaf(false) || undefined;
-            if (leaf) await leaf.setViewState({ type: EVENT_TIMERS_VIEW_TYPE, active: true });
-            // Show the leaf
-            await workspace.revealLeaf(leaf);
+            if (leaf) {
+                await leaf.setViewState({ type: EVENT_TIMERS_VIEW_TYPE, active: true });
+                // Show the leaf
+                await workspace.revealLeaf(leaf);
+            }
         }
     }
     async updateView() {
